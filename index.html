@@ -1,0 +1,387 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nguyễn Tấn Thiện - Liquid Glass</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    font-family: -apple-system, BlinkMacSystemFont,
+                 "Segoe UI", sans-serif;
+    color: #1b2639;
+}
+
+body {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 25px;
+    overflow-x: hidden;
+    background:
+      radial-gradient(ellipse at 15% 15%,
+        #b5d9ff 0%, transparent 48%),
+      radial-gradient(ellipse at 85% 20%,
+        #e1c3ff 0%, transparent 45%),
+      radial-gradient(ellipse at 65% 90%,
+        #a4e8e5 0%, transparent 48%),
+      #e9f1ff;
+}
+
+/* Background decorative circles */
+.orb {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+    filter: blur(2px);
+}
+
+.orb-one {
+    width: 330px;
+    height: 330px;
+    top: 5%;
+    left: 8%;
+    background: linear-gradient(135deg,
+      #8dbbff, #d3b2ff);
+}
+
+.orb-two {
+    width: 270px;
+    height: 270px;
+    right: 7%;
+    bottom: 7%;
+    background: linear-gradient(135deg,
+      #9df2e5, #8aafff);
+}
+
+.orb-three {
+    width: 130px;
+    height: 130px;
+    top: 16%;
+    right: 23%;
+    background: #ffffffaa;
+}
+
+/* Main glass card */
+.glass-card {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 440px;
+    padding: 30px;
+    border-radius: 34px;
+
+    background: rgba(255,255,255,0.13);
+    backdrop-filter: blur(26px) saturate(180%);
+    -webkit-backdrop-filter:
+        blur(26px) saturate(180%);
+
+    border: 1px solid rgba(255,255,255,0.65);
+
+    box-shadow:
+      0 25px 65px rgba(46,69,125,0.14),
+      inset 0 1px 1px rgba(255,255,255,0.9),
+      inset 0 -1px 1px rgba(255,255,255,0.2);
+
+    transition: transform .3s ease,
+                box-shadow .3s ease;
+    overflow: hidden;
+}
+
+.glass-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      420px circle at var(--mx, 50%) var(--my, 0%),
+      rgba(255,255,255,0.42),
+      transparent 65%
+    );
+}
+
+/* Profile */
+.profile {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 17px;
+    margin-bottom: 28px;
+}
+
+.avatar {
+    width: 74px;
+    height: 74px;
+    flex-shrink: 0;
+    border-radius: 24px;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    font-size: 27px;
+    font-weight: 750;
+    letter-spacing: -2px;
+    background: linear-gradient(145deg,
+        #343c51, #111827);
+    box-shadow: 0 8px 25px #33446633;
+    border: 1px solid #ffffff55;
+}
+
+.profile h1 {
+    font-size: 21px;
+    font-weight: 750;
+    letter-spacing: -.7px;
+}
+
+.profile p {
+    margin-top: 5px;
+    font-size: 14px;
+    color: #53647d;
+}
+
+.status {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 10px;
+    color: #4d627a;
+    font-size: 12px;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #30c76b;
+    box-shadow: 0 0 10px #30c76b88;
+}
+
+/* Transparent glass rows */
+.contact-list {
+    position: relative;
+    display: grid;
+    gap: 12px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 15px;
+    border-radius: 20px;
+
+    background: rgba(255,255,255,0.16);
+    border: 1px solid rgba(255,255,255,0.55);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.7),
+      0 5px 20px rgba(55,80,140,0.04);
+
+    text-decoration: none;
+    color: inherit;
+    transition: .25s ease;
+}
+
+.contact-item:hover {
+    background: rgba(255,255,255,0.36);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px #496baf18;
+}
+
+.icon {
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 15px;
+    color: #087bfa;
+    background: rgba(255,255,255,0.32);
+    border: 1px solid rgba(255,255,255,0.6);
+}
+
+.icon svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.info {
+    flex: 1;
+    min-width: 0;
+}
+
+.info span {
+    display: block;
+    font-size: 12px;
+    color: #63758d;
+    margin-bottom: 5px;
+}
+
+.info strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 650;
+    overflow-wrap: anywhere;
+}
+
+.arrow {
+    font-size: 25px;
+    font-weight: 300;
+    color: #6d829d;
+}
+
+.footer {
+    position: relative;
+    margin-top: 25px;
+    text-align: center;
+    color: #62738a;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+}
+
+@media (max-width: 420px) {
+    .glass-card {
+        padding: 22px;
+        border-radius: 28px;
+    }
+
+    .profile h1 {
+        font-size: 18px;
+    }
+
+    .avatar {
+        width: 64px;
+        height: 64px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        transition: none !important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="orb orb-one"></div>
+<div class="orb orb-two"></div>
+<div class="orb orb-three"></div>
+
+<main class="glass-card" id="glassCard">
+
+    <header class="profile">
+        <div class="avatar">NT.</div>
+
+        <div>
+            <h1>Nguyễn Tấn Thiện</h1>
+            <p>Graphic Designer</p>
+
+            <div class="status">
+                <span class="dot"></span>
+                Available for work
+            </div>
+        </div>
+    </header>
+
+    <div class="contact-list">
+
+        <a class="contact-item"
+           href="tel:0348808250">
+            <div class="icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M22 16.9v3a2 2 0 0 1-2.2 2
+                    A19.8 19.8 0 0 1 3.1 5.2
+                    2 2 0 0 1 5.1 3h3
+                    a2 2 0 0 1 2 1.7l.5 3
+                    a2 2 0 0 1-.6 1.7L8.1 11
+                    a16 16 0 0 0 4.9 4.9
+                    l1.6-1.9a2 2 0 0 1 1.7-.6
+                    l3 .5a2 2 0 0 1 1.7 2z"/>
+                </svg>
+            </div>
+            <div class="info">
+                <span>Điện thoại</span>
+                <strong>0348808250</strong>
+            </div>
+            <div class="arrow">›</div>
+        </a>
+
+        <a class="contact-item"
+           target="_blank"
+           rel="noopener noreferrer"
+           href="https://www.google.com/maps/search/?api=1&amp;query=249+Ha+Huy+Tap+Da+Nang">
+            <div class="icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M20 10c0 5-8 12-8 12
+                    S4 15 4 10a8 8 0 1 1 16 0z"/>
+                    <circle cx="12" cy="10" r="3"/>
+                </svg>
+            </div>
+            <div class="info">
+                <span>Địa chỉ</span>
+                <strong>249 Hà Huy Tập, Đà Nẵng</strong>
+            </div>
+            <div class="arrow">›</div>
+        </a>
+
+        <a class="contact-item"
+           target="_blank"
+           rel="noopener noreferrer"
+           href="https://www.behance.net/thintn3">
+            <div class="icon">
+                <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="9"/>
+                    <path d="M3 12h18M12 3
+                    a15 15 0 0 1 0 18
+                    M12 3a15 15 0 0 0 0 18"/>
+                </svg>
+            </div>
+            <div class="info">
+                <span>Portfolio / Behance</span>
+                <strong>behance.net/thintn3</strong>
+            </div>
+            <div class="arrow">›</div>
+        </a>
+
+    </div>
+
+    <footer class="footer">
+        DESIGN WITH PURPOSE · 2026
+    </footer>
+
+</main>
+
+<script>
+const card = document.getElementById("glassCard");
+
+card.addEventListener("pointermove", (e) => {
+    const rect = card.getBoundingClientRect();
+
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    card.style.setProperty("--mx", x + "px");
+    card.style.setProperty("--my", y + "px");
+});
+
+card.addEventListener("pointerleave", () => {
+    card.style.setProperty("--mx", "50%");
+    card.style.setProperty("--my", "0%");
+});
+</script>
+
+</body>
+</html>
